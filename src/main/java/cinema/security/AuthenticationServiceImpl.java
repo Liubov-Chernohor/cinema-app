@@ -1,47 +1,35 @@
 package cinema.security;
 
-import cinema.exception.AuthenticationException;
-import cinema.exception.RegistrationException;
-import cinema.lib.Inject;
-import cinema.lib.Service;
+import cinema.model.Role;
 import cinema.model.User;
+import cinema.service.RoleService;
 import cinema.service.ShoppingCartService;
 import cinema.service.UserService;
-import cinema.util.HashUtil;
-import java.util.Optional;
+import java.util.Set;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    @Inject
-    private UserService userService;
-    @Inject
-    private ShoppingCartService shoppingCartService;
+    private final UserService userService;
+    private final ShoppingCartService shoppingCartService;
+    private final RoleService roleService;
 
-    @Override
-    public User login(String email, String password) throws AuthenticationException {
-        Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isPresent() && matchPasswords(password, userFromDb.get())) {
-            return userFromDb.get();
-        }
-        throw new AuthenticationException("Incorrect email or password!");
+    public AuthenticationServiceImpl(UserService userService,
+                                     ShoppingCartService shoppingCartService,
+                                     RoleService roleService) {
+        this.userService = userService;
+        this.shoppingCartService = shoppingCartService;
+        this.roleService = roleService;
     }
 
     @Override
-    public User register(String email, String password) throws RegistrationException {
-        if (userService.findByEmail(email).isPresent()) {
-            throw new RegistrationException("User with this email "
-                    + email + " is already exist!");
-        }
+    public User register(String email, String password) {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
+        user.setRoles(Set.of(roleService.getByName(Role.RoleName.USER)));
         userService.add(user);
         shoppingCartService.registerNewShoppingCart(user);
         return user;
-    }
-
-    private boolean matchPasswords(String rawPassword, User userFromDb) {
-        String hashedPassword = HashUtil.hashPassword(rawPassword, userFromDb.getSalt());
-        return hashedPassword.equals(userFromDb.getPassword());
     }
 }
