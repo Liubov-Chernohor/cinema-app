@@ -4,19 +4,14 @@
 ### *The aplication maintain the CRUD operations, authentication and registration. Based on the role of the user, this application allows to select a cinema, a session, order tickets, add / delete films, etc.* ###
 
 ## Endpoints:
--                      "/register" - permited for all users
-- **GET requests:**    "/cinema-halls", "/movies", "/movie-sessions/available") permited for ADMIN and USER 
-
-                     "/orders", "/shopping-carts/by-user" -  permited for USER
-								 
-                     "/users/by-email" -  permited for ADMIN
-								 
-- **POST requests:**   "/cinema-halls","/movies", "/movie-sessions" - permited for ADMIN
-
-                     "/orders/complete" - permited for USER							 
-- **PUT requests:**     "/movie-sessions/{id}" -  permited for ADMIN
-
-                    "/shopping-carts/movie-sessions" - permited for USER			 
+- "/register" - permited for all users
+- **GET requests:**   1) "/cinema-halls", "/movies", "/movie-sessions/available") permited for ADMIN and USER<br />
+		      2) "/orders", "/shopping-carts/by-user" -  permited for USER<br />
+		      3) "/users/by-email" -  permited for ADMIN  			 
+- **POST requests:**   1) "/cinema-halls","/movies", "/movie-sessions" - permited for ADMIN<br /> 
+                       2) "/orders/complete" - permited for USER<br />					 
+- **PUT requests:**    1) "/movie-sessions/{id}" -  permited for ADMIN<br /> 
+                       2) "/shopping-carts/movie-sessions" - permited for USER<br />		 
 - **DELETE request:**   "/movie-sessions/{id}" - permited for ADMIN
 
 
@@ -41,7 +36,7 @@
 - install MySQL ;
 - install and configure Apache Tomcat version 9 for your IDE;
 - onfigure /src/main/resources/db.properties with your DB_URL, USERNAME, PASSWORD;
-- You already have two registered users: 1) login - admin@i.ua, password - admin123 (ROLE_ADMIN;
+- You already have two registered users: 1) login - admin@i.ua, password - admin123 (ROLE_ADMIN;<br />
                                          2) login - user@i.ua, password - user123 (ROLE_USER).
 - Go ahead and just try it!
 
